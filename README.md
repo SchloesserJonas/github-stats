@@ -15,6 +15,6 @@ The script needs access to all repos that should be included in the stats (see s
 The script is **not** going to use commits for the calculations that you made to repos you lost access to or were deleted!
 
 ### ❗️ Disclaimer
-> [!WARNING]
+> [!CAUTION]
 > The script uses the github API  
 > I do **NOT** take responsibility for rate blockings or other consequences github may take because of the caused api traffic.
