@@ -2,14 +2,17 @@ import { getUser, getAvailableRepos, commitsForRepo, getCommitDetails } from "./
 import { render } from "./renderer.js"
 import ignorelist from "./ignorelist.js"
 const { ignored_file_types, ignored_files } = ignorelist
+import custom_ignores from './custom-ignores.js'
+const custom_ignore = custom_ignores.custom_ignore
 
-const LOGGER = true
+const LOGGER = false
 
 var user_data = await setup()
 
 var start = new Date().getTime()
 var end
 
+// fetch repos
 var repos = []
 var pages = 1
 for(var i = 1; i <= pages; i++) {
@@ -27,6 +30,7 @@ for(var i = 1; i <= pages; i++) {
     })
 }
 
+// fetch commits for repo
 for(var i = 0; i < repos.length; i++) {
     var pages = 1
     for(var j = 1; j <= pages; j++) {
@@ -42,6 +46,7 @@ for(var i = 0; i < repos.length; i++) {
     if(LOGGER) console.log("finished fetching " + repos[i].full_name)
 }
 
+// fetch stats for commits
 var stats = {total: 0, additions: 0, deletions: 0, changes: 0, commits: 0, files_committed: 0, files_created: 0}
 var lang_stats = {}
 var lang_repo_stats = {}
@@ -68,6 +73,16 @@ for(var i = 0; i < repos.length; i++) {
                 stats.deletions -= stats_full.files[k].deletions
                 continue
             }
+            if(custom_ignore.some(entry => entry.repo == repos[i].full_name)) {
+                console.log(custom_ignore.find(entry => entry.repo == repos[i].full_name))
+                console.log(full_filename, filename, file_type)
+                if(custom_ignore.find(entry => entry.repo == repos[i].full_name).ignore_ft.includes(file_type) ||
+                custom_ignore.find(entry => entry.repo == repos[i].full_name).ignore.includes(filename)) {
+                    stats.additions -= stats_full.files[k].additions
+                    stats.deletions -= stats_full.files[k].deletions
+                    continue
+                }
+            }
 
             if(stats_full.files[k].status == "added") stats.files_created += 1
 
@@ -93,6 +108,8 @@ for(var i = 0; i < repos.length; i++) {
         lang_repo_stats[repos[i].language] = 1
     }
 }
+
+// render stats
 end = new Date().getTime()
 render(stats, lang_stats, lang_repo_stats, user_data)
 
