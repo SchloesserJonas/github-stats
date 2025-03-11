@@ -5,7 +5,7 @@ const { ignored_file_types, ignored_files } = ignorelist
 import custom_ignores from './custom-ignores.js'
 const custom_ignore = custom_ignores.custom_ignore
 
-const LOGGER = false
+const LOGGER = true
 
 var user_data = await setup()
 
@@ -74,8 +74,6 @@ for(var i = 0; i < repos.length; i++) {
                 continue
             }
             if(custom_ignore.some(entry => entry.repo == repos[i].full_name)) {
-                console.log(custom_ignore.find(entry => entry.repo == repos[i].full_name))
-                console.log(full_filename, filename, file_type)
                 if(custom_ignore.find(entry => entry.repo == repos[i].full_name).ignore_ft.includes(file_type) ||
                 custom_ignore.find(entry => entry.repo == repos[i].full_name).ignore.includes(filename)) {
                     stats.additions -= stats_full.files[k].additions
