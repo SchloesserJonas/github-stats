@@ -1,5 +1,6 @@
 import { getUser, getAvailableRepos, commitsForRepo, getCommitDetails } from "./service.js"
 import { render } from "./renderer.js"
+import { exporter } from "./exporter.js"
 import ignorelist from "./ignorelist.js"
 const { ignored_file_types, ignored_files } = ignorelist
 import custom_ignores from './custom-ignores.js'
@@ -107,11 +108,19 @@ for(var i = 0; i < repos.length; i++) {
     }
 }
 
+var exported = exporter(stats, lang_stats, lang_repo_stats, user_data)
+
 // render stats
 end = new Date().getTime()
 render(stats, lang_stats, lang_repo_stats, user_data)
 
 console.log("Time elapsed: " + (((end - start) / 1000) / 60).toFixed(2) + " minutes")
+
+if(exported) {
+    console.log("A JSON export of you stats can be found at " + exported)
+} else {
+    console.log("Your stats couldn't get exported to JSON")
+}
 
 async function setup(page) {
     return new Promise(resolve => {
