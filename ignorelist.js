@@ -53,7 +53,8 @@ export default {
         ".synctex.gz",
         ".toc",
         ".glg",
-        ".gls"
+        ".gls",
+        ".bst"
     ],
     ignored_files: [
         "LICENSE",
