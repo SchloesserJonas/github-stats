@@ -38,7 +38,22 @@ export default {
         "pbxproj",
         "vcxproj",
         "resolved",
-        "sln"
+        "sln",
+        ".aux",
+        ".bbl",
+        ".blg",
+        ".fdb_latexmk",
+        ".fls",
+        ".glo",
+        ".ist",
+        ".lof",
+        ".log",
+        ".lol",
+        ".lot",
+        ".synctex.gz",
+        ".toc",
+        ".glg",
+        ".gls"
     ],
     ignored_files: [
         "LICENSE",
