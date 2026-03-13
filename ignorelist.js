@@ -55,6 +55,8 @@ export default {
         "glg",
         "gls",
         "bst",
+        "tdo",
+        "for"
     ],
     ignored_files: [
         "LICENSE",
